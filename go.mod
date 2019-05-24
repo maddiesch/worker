@@ -1,4 +1,4 @@
-module worker
+module github.com/maddiesch/worker
 
 go 1.12
 
