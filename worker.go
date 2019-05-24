@@ -4,6 +4,14 @@ import (
 	"sync"
 )
 
+const (
+	// MaxQueueDepth the maximum size of the queue allowed per-pool
+	MaxQueueDepth = 256
+
+	// MinQueueDepth is the minimum size of the queue allowed per-pool
+	MinQueueDepth = 16
+)
+
 type worker struct {
 	ID   int
 	Jobs chan *jobRunner
@@ -53,7 +61,7 @@ func (p *Pool) Wait() {
 //
 // The pool allows a depth between 64 & 256
 func NewPool(count, depth int) *Pool {
-	dep := min(max(depth, 64), 256)
+	dep := min(max(depth, MinQueueDepth), MaxQueueDepth)
 
 	pool := &Pool{
 		depth:   dep,
